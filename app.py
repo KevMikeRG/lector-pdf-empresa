@@ -1,5 +1,4 @@
 import streamlit as st
-import fitz  # PyMuPDF
 import cv2
 import numpy as np
 from pdf2image import convert_from_bytes
