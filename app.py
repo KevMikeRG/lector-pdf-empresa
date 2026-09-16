@@ -5,20 +5,39 @@ from pdf2image import convert_from_bytes
 import pytesseract
 from PIL import Image
 
-# Configuración de la página limpia y enfocada
 st.set_page_config(page_title="Lector de Texto PDF - Customer Service", layout="centered")
 
+# CSS para ampliar la zona de arrastre y evitar que el navegador abra el PDF
+st.markdown("""
+    <style>
+    /* Ocultar elementos innecesarios de Streamlit para que sea minimalistra */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    
+    /* Ampliar la caja de carga para que ocupe todo el ancho y sea fácil de atinar */
+    [data-testid="stFileUploader"] {
+        width: 100%;
+    }
+    [data-testid="stFileUploader"] section {
+        background-color: #f8fafc;
+        border: 3px dashed #3b82f6;
+        border-radius: 12px;
+        padding: 40px 20px;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 st.title("📄 Extractor Directo de Texto")
-st.markdown("Arrastra el PDF del cliente. El sistema extraerá y pulirá el texto de forma inmediata, sin previsualizaciones innecesarias.")
+st.markdown("Arrastra tu PDF en el recuadro de abajo:")
 
 # Widget de carga limpio
-archivo_pdf = st.file_uploader("Sube o arrastra tu PDF aquí", type=["pdf"])
+archivo_pdf = st.file_uploader("", type=["pdf"])
 
 if archivo_pdf is not None:
     bytes_pdf = archivo_pdf.read()
     
-    with st.spinner('Procesando documento y optimizando texto...'):
-        # Convertir todas las páginas del PDF a alta resolución
+    with st.spinner('Procesando documento...'):
         imagenes = convert_from_bytes(bytes_pdf, dpi=300)
         texto_completo = ""
         
@@ -39,15 +58,13 @@ if archivo_pdf is not None:
 
     st.success(f"¡Texto extraído con éxito de {len(imagenes)} página(s)!")
     
-    # MOSTRAR DIRECTAMENTE EL TEXTO EN GRANDE (Sin mostrar PDFs ni imágenes)
-    st.subheader("📝 Texto Extraído y Pulido")
+    # MOSTRAR DIRECTAMENTE EL TEXTO EN GRANDE
     texto_final = st.text_area("Haz clic dentro, selecciona y copia (Ctrl+C):", 
                                value=texto_completo, 
-                               height=400)
+                               height=320)
     
-    # Botón de descarga opcional
     st.download_button(
-        label="📥 Descargar como Archivo .txt",
+        label="📥 Descargar como .txt",
         data=texto_final,
         file_name="texto_extraido.txt",
         mime="text/plain"
