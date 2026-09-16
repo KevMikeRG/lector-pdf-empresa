@@ -65,7 +65,7 @@ if archivo_pdf is not None:
         img_limpia_cv = mejorar_imagen_para_ocr(imagen_original)
         
         # Ejecutar Motor OCR de Paddle (Extrae coordenadas, texto y nivel de confianza)
-        resultados = ocr_engine.ocr(img_limpia_cv, cls=True)
+        resultados = ocr_engine.ocr(img_limpia_cv)
         
         texto_extraido = ""
         if resultados != [None]:
