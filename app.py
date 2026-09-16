@@ -13,7 +13,7 @@ st.set_page_config(page_title="Lector Inteligente PDF - Customer Service", layou
 @st.cache_resource
 def iniciar_motor_ocr():
     # use_angle_cls=True detecta y corrige automáticamente si el texto está al revés
-    return PaddleOCR(use_angle_cls=True, lang='es', show_log=False)
+    return PaddleOCR(use_angle_cls=True, lang='es')
 
 ocr_engine = iniciar_motor_ocr()
 
