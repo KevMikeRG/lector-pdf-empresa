@@ -36,7 +36,12 @@ def mejorar_imagen_para_ocr(imagen_pil):
     # Binarización adaptativa para separar texto del fondo
     binaria = cv2.adaptiveThreshold(suavizado, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
                                     cv2.THRESH_BINARY, 11, 2)
-    return binaria
+                                    
+    # LA SOLUCIÓN: Convertir la imagen de 1 canal de vuelta a 3 canales 
+    # para que el motor de Inteligencia Artificial la acepte sin errores.
+    imagen_lista_para_ia = cv2.cvtColor(binaria, cv2.COLOR_GRAY2BGR)
+    
+    return imagen_lista_para_ia
 
 # 4. INTERFAZ DE USUARIO (Frontend)
 st.title("📄 Procesador Inteligente de Documentos")
