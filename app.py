@@ -42,7 +42,7 @@ if archivo_pdf is not None:
 
     with col_izq:
         st.subheader("🖼️ Documento Original")
-        st.image(imagen_original, use_column_width=True)
+        st.image(imagen_original, use_container_width=True)
 
     with col_der:
         st.subheader("📝 Texto Extraído (Listo para copiar)")
